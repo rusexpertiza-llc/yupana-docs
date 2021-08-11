@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Язык запросов Yupana (YupanaQL) · Yupana</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Для выполнения запросов Yupana поддерживает собственный диалект SQL.  Поддерживаются следующие операции:"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Язык запросов Yupana (YupanaQL) · Yupana"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docs.yupana.org/"/><meta property="og:description" content="Для выполнения запросов Yupana поддерживает собственный диалект SQL.  Поддерживаются следующие операции:"/><meta property="og:image" content="https://docs.yupana.org/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docs.yupana.org/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/yupana-logo.png" alt="Yupana"/><h2 class="headerTitleWithLogo">Yupana</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/architecture" target="_self">Документация</a></li><li class=""><a href="/api/org/yupana/index.html" target="_self">API</a></li><li class=""><a href="https://github.com/rusexpertiza-llc/yupana" target="_blank">GitHub</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Язык запросов</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Установка</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/installation">Быстрый старт</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Документация</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/architecture">Архитектура</a></li><li class="navListItem"><a class="navItem" href="/docs/external-links">Подключение внешних источников</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Язык запросов</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/docs/yupanaql">Язык запросов Yupana (YupanaQL)</a></li><li class="navListItem"><a class="navItem" href="/docs/select">SELECT</a></li><li class="navListItem"><a class="navItem" href="/docs/upsert">UPSERT</a></li><li class="navListItem"><a class="navItem" href="/docs/show">SHOW</a></li><li class="navListItem"><a class="navItem" href="/docs/kill">KILL</a></li><li class="navListItem"><a class="navItem" href="/docs/delete">DELETE</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Язык запросов Yupana (YupanaQL)</h1></header><article><div><span><p>Для выполнения запросов Yupana поддерживает собственный диалект SQL.  Поддерживаются следующие операции:</p>
+<ul>
+<li><code>SELECT</code> -- выборка данных.</li>
+<li><code>UPSERT</code> -- вставка данных.</li>
+<li><code>KILL QUERY</code> -- остановка запроса.</li>
+<li><code>DELETE QUERY</code> -- удаление запроса из истории.</li>
+<li><code>SHOW TABLES</code> -- вывод списка таблиц.</li>
+<li><code>SHOW COLUMNS FROM &lt;table_name&gt;</code> -- вывод списка полей таблицы.</li>
+<li><code>SHOW QUERIES</code> -- просмотр истории запросов.</li>
+<li><code>SHOW UPDATES_INTERVALS</code> - вывод списка изменений временных рядов, произошедших в указанный период.</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="правила-наименования-полей"></a><a href="#правила-наименования-полей" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Правила наименования полей</h2>
+<ol>
+<li><p>Время для любой схемы указывается как поле <code>time</code> типа TIMESTAMP. Доступны следующие функции для работы со временем:
+<code>trunc_second</code>, <code>trunc_minute</code>, <code>trunc_hour</code>, <code>trunc_day</code>, <code>trunc_month</code>, <code>trunc_year</code>.
+<code>extract_second</code>, <code>extract_minute</code>, <code>extract_hour</code>, <code>extract_day</code>, <code>extract_month</code>, <code>extract_year</code>.</p></li>
+<li><p>Поля таблицы указываются:</p></li>
+</ol>
+<ul>
+<li>как есть (quantity или &quot;quantity&quot;)</li>
+<li>с указанием таблицы (&quot;kkm_items&quot;.&quot;quantity&quot; или kkm_items.quantity)</li>
+</ul>
+<ol start="3">
+<li><p>Тэги указываются как есть (например kkmId)</p></li>
+<li><p>Поля внешних связей указываются в виде <code>имясвязи_имяполя</code> (например ItemsInvertedIndex_phrase).</p></li>
+<li><p>Фильтровать можно по размерностям, метрикам и полям внешних связей, времени используя =,!=,IN,IS NULL/NOT NULL для строк и =,!=,&gt;,&gt;=,&lt;,&lt;=,IN,IS NULL/NOT NULL для остальных типов.</p></li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="литералы"></a><a href="#литералы" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Литералы</h2>
+<p>Поддерживаются литералы следующих типов:</p>
+<ol>
+<li>Строки: <code>'Hello!'</code></li>
+<li>Числа (целые либо с плавающей запятой): <code>42</code> или <code>1234.567</code></li>
+<li>Даты:</li>
+</ol>
+<ul>
+<li><code>TIMESTAMP '2018-08-06'</code></li>
+<li><code>TIMESTAMP '2018-08-06 16:24:50'</code></li>
+<li><code>TIMESTAMP '2018-08-06 16:24:50.123'</code></li>
+<li><code>{ ts '2017-06-13' }</code></li>
+<li><code>{ ts '2017-06-13 09:15:44' }</code></li>
+<li><code>{ ts '2017-06-13 09:15:44.666' }</code></li>
+</ul>
+<ol start="4">
+<li>Интервалы:</li>
+</ol>
+<ul>
+<li><code>INTERVAL '06:00:00'</code> -- 6 часов</li>
+<li><code>INTERVAL '1 12:00:00'</code> -- 1 день и 12 часов</li>
+<li><code>INTERVAL '1' HOUR</code> -- 1 час</li>
+<li><code>INTERVAL '30' MINUTE</code> -- 30 минут</li>
+<li><code>INTERVAL '2 12' DAY TO HOUR</code> -- 2 дня 12 часов</li>
+<li><code>INTERVAL '6 12:30' DAY TO MINUTE</code> -- 6 дней 12 часов 30 минут</li>
+<li><code>INTERVAL '3' MONTH</code> -- 3 месяца</li>
+<li><code>INTERVAL '1' YEAR</code> -- 1 год</li>
+<li><code>INTERVAL '3-10' MONTH TO DAY</code> -- 3 месяца и 10 дней</li>
+</ul>
+<ol start="5">
+<li>Массивы: <code>{1, 2, 3,}</code>, <code>{ 'one', 'two', 'three' }</code>.</li>
+</ol>
+<p>И т.д.  Важно понимать, что интервалы содержащие месяца и/или годы не могут быть использованы при сравнении длительности
+интервала между двумя датами.  Это обуславливается тем что длина месяца или года зависит от определенной даты.</p>
+<p>При выполнении математических операций (плюс или минус) над интервалами можно использовать любые интервалы.</p>
+<h2><a class="anchor" aria-hidden="true" id="функции"></a><a href="#функции" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Функции</h2>
+<table>
+<thead>
+<tr><th>Функция</th><th style="text-align:center">Тип функции</th><th style="text-align:center">Типы аргументов</th><th style="text-align:center">Тип значения</th><th>Описание</th></tr>
+</thead>
+<tbody>
+<tr><td><code>min</code></td><td style="text-align:center">агрегация</td><td style="text-align:center">число, строка, время</td><td style="text-align:center">тот же</td><td>Минимальное значение. Для строковых значение в лексикографическом порядке</td></tr>
+<tr><td><code>max</code></td><td style="text-align:center">агрегация</td><td style="text-align:center">число, строка, время</td><td style="text-align:center">тот же</td><td>Максимальное значение. Для строковых значение в лексикографическом порядке</td></tr>
+<tr><td><code>sum</code></td><td style="text-align:center">агрегация</td><td style="text-align:center">число</td><td style="text-align:center">тот же</td><td>Сумма</td></tr>
+<tr><td><code>count</code></td><td style="text-align:center">агрегация</td><td style="text-align:center">любой</td><td style="text-align:center">число</td><td>Количество</td></tr>
+<tr><td><code>distinct_count</code></td><td style="text-align:center">агрегация</td><td style="text-align:center">любой</td><td style="text-align:center">число</td><td>Количество уникальных значений</td></tr>
+<tr><td><code>lag</code></td><td style="text-align:center">оконная</td><td style="text-align:center">любой</td><td style="text-align:center">тот же</td><td>Предыдущее значение в группе записей.  Группа определяется в запросе в секции группировки.  Сортировка по времени.</td></tr>
+<tr><td><code>trunc_year</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">время</td><td>Округление времени до года</td></tr>
+<tr><td><code>trunc_month</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">время</td><td>Округление времени до месяца</td></tr>
+<tr><td><code>trunc_day</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">время</td><td>Округление времени до дня</td></tr>
+<tr><td><code>trunc_hour</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">время</td><td>Округление времени до часа</td></tr>
+<tr><td><code>trunc_minute</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">время</td><td>Округление времени до минуты</td></tr>
+<tr><td><code>trunc_second</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">время</td><td>Округление времени до секунды</td></tr>
+<tr><td><code>exract_year</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">число</td><td>Извлечение значения года из времени</td></tr>
+<tr><td><code>exract_month</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">число</td><td>Извлечение значения месяца из времени</td></tr>
+<tr><td><code>exract_day</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">число</td><td>Извлечение значения дня из времени</td></tr>
+<tr><td><code>exract_hour</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">число</td><td>Извлечение значения часа из времени</td></tr>
+<tr><td><code>exract_minute</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">число</td><td>Извлечение значения минуты из времени</td></tr>
+<tr><td><code>exract_second</code></td><td style="text-align:center">унарная</td><td style="text-align:center">время</td><td style="text-align:center">число</td><td>Извлечение значения секунды из времени</td></tr>
+<tr><td><code>abs</code></td><td style="text-align:center">унарная</td><td style="text-align:center">число</td><td style="text-align:center">число</td><td>Значение числа по модулю</td></tr>
+<tr><td><code>tokens</code></td><td style="text-align:center">унарная</td><td style="text-align:center">строка</td><td style="text-align:center">массив строк</td><td>Получение стемированых транслитерированых строк из строки</td></tr>
+<tr><td><code>tokens</code></td><td style="text-align:center">унарная</td><td style="text-align:center">массив строк</td><td style="text-align:center">массив строк</td><td>Получение стемированых транслитерированых строк из массива строк</td></tr>
+<tr><td><code>split</code></td><td style="text-align:center">унарная</td><td style="text-align:center">строка</td><td style="text-align:center">массив строк</td><td>Разбиение строки на слова по пробелам</td></tr>
+<tr><td><code>length</code></td><td style="text-align:center">унарная</td><td style="text-align:center">строки, массивы</td><td style="text-align:center">строки, массивы</td><td>Длина строки или количество элементов в массиве</td></tr>
+<tr><td><code>array_to_string</code></td><td style="text-align:center">унарная</td><td style="text-align:center">массив</td><td style="text-align:center">строка</td><td>Преобразование массивы в строку в формате &quot;( a, b, .., n)&quot;</td></tr>
+<tr><td><code>id</code></td><td style="text-align:center">унарная</td><td style="text-align:center">размерность</td><td style="text-align:center">число</td><td>Идентификатор значения размерности в словаре</td></tr>
+<tr><td><code>+</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">число, строка, интервал</td><td style="text-align:center">тот же</td><td>Сложение</td></tr>
+<tr><td><code>-</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">число</td><td style="text-align:center">тот же</td><td>Вычитание</td></tr>
+<tr><td><code>*</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">число</td><td style="text-align:center">тот же</td><td>Умножение</td></tr>
+<tr><td><code>/</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">число</td><td style="text-align:center">тот же</td><td>Деление</td></tr>
+<tr><td><code>+</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">время и интервал</td><td style="text-align:center">время</td><td>Сложение</td></tr>
+<tr><td><code>-</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">время и интервал</td><td style="text-align:center">время</td><td>Вычитание</td></tr>
+<tr><td><code>-</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">время и время</td><td style="text-align:center">интервал</td><td>Вычитание</td></tr>
+<tr><td><code>=</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">число, строка, время</td><td style="text-align:center">логический</td><td>Сравнение на равенство</td></tr>
+<tr><td><code>&lt;&gt;</code> или <code>!=</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">число, строка, время</td><td style="text-align:center">логический</td><td>Сравнение на неравенство</td></tr>
+<tr><td><code>&gt;</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">число, строка, время</td><td style="text-align:center">логический</td><td>Сравнение на больше</td></tr>
+<tr><td><code>&lt;</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">число, строка, время</td><td style="text-align:center">логический</td><td>Сравнение на меньше</td></tr>
+<tr><td><code>&gt;</code>=</td><td style="text-align:center">инфиксная</td><td style="text-align:center">число, строка, время</td><td style="text-align:center">логический</td><td>Сравнение на больше или равно</td></tr>
+<tr><td><code>&lt;=</code></td><td style="text-align:center">инфиксная</td><td style="text-align:center">число, строка, время</td><td style="text-align:center">логический</td><td>Сравнение на меньше или равно</td></tr>
+<tr><td><code>contains</code></td><td style="text-align:center">бинарная</td><td style="text-align:center">массив и тип элемента</td><td style="text-align:center">логический</td><td>True если массив содержит элемент, иначе False</td></tr>
+<tr><td><code>contains_all</code></td><td style="text-align:center">бинарная</td><td style="text-align:center">массив и массив</td><td style="text-align:center">логический</td><td>True если массив1 содержит все элементы массива2, иначе False</td></tr>
+<tr><td><code>contains_any</code></td><td style="text-align:center">бинарная</td><td style="text-align:center">массив и массив</td><td style="text-align:center">логический</td><td>True если массив1 содержит хотя бы один элемент из массива2, иначе False</td></tr>
+<tr><td><code>contains_same</code></td><td style="text-align:center">бинарная</td><td style="text-align:center">массив и массив</td><td style="text-align:center">логический</td><td>True если массив1 содержит те же элементы что и массив2 (в любом порядке)</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="типы-функций"></a><a href="#типы-функций" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Типы функций</h3>
+<ul>
+<li>Агрегация -- функция вычисляющая общее значение из множества значений (например сумму или максимум).  Агрегации не могут использоваться вместе с оконными функциями.</li>
+<li>Оконная -- функция вычисляющая общее значение из множества значении и их порядка. Оконные функции не могут использоваться вместе с агрегациями. Не поддерживаются в реализации Yupana для Spark.</li>
+<li>Унарная -- функция над одним значением (например length или tokens).</li>
+<li>Инфиксная -- функция над двумя значениями, в SQL записывается между аргументами (например + или -).</li>
+<li>Бинарная -- функция с двумя значениями, например contains_all.</li>
+</ul>
+<p>Кроме того, поддерживаются следующие SQL выражения:</p>
+<table>
+<thead>
+<tr><th>Выражение</th><th>Описание</th></tr>
+</thead>
+<tbody>
+<tr><td><code>x IN (1, 2 .. z)</code></td><td>Проверка что <code>x</code> является одним из элементов заданного множества констант</td></tr>
+<tr><td><code>x NOT IN (3, 4, .. z)</code></td><td>Проверка что <code>x</code> не является одним из элементов заданного множества констант</td></tr>
+<tr><td><code>x IN NULL</code></td><td>Проверка что значение <code>x</code> не определено</td></tr>
+<tr><td><code>x IS NOT NULL</code></td><td>Проверка что значение <code>x</code> определено</td></tr>
+<tr><td><code>x BETWEEN 1 AND 10</code></td><td>То же самое что <code>x &gt;= 1 AND x &lt;= 10</code></td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/external-links"><span class="arrow-prev">← </span><span>Подключение внешних источников</span></a><a class="docs-next button" href="/docs/select"><span>SELECT</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#правила-наименования-полей">Правила наименования полей</a></li><li><a href="#литералы">Литералы</a></li><li><a href="#функции">Функции</a><ul class="toc-headings"><li><a href="#типы-функций">Типы функций</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © Yupana, Первый ОФД 2021</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: 'c9d8bb456d6608bb7e12f07fcdb49c2b',
+                indexName: 'yupana',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>

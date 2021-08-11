@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Архитектура · Yupana</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Yupana -- аналитическая платформа с открытым исходным кодом для анализа больших данных."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Архитектура · Yupana"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docs.yupana.org/"/><meta property="og:description" content="Yupana -- аналитическая платформа с открытым исходным кодом для анализа больших данных."/><meta property="og:image" content="https://docs.yupana.org/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docs.yupana.org/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/yupana-logo.png" alt="Yupana"/><h2 class="headerTitleWithLogo">Yupana</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive siteNavItemActive"><a href="/docs/architecture" target="_self">Документация</a></li><li class=""><a href="/api/org/yupana/index.html" target="_self">API</a></li><li class=""><a href="https://github.com/rusexpertiza-llc/yupana" target="_blank">GitHub</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Документация</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Установка</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/installation">Быстрый старт</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Документация</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/docs/architecture">Архитектура</a></li><li class="navListItem"><a class="navItem" href="/docs/external-links">Подключение внешних источников</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Язык запросов</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/yupanaql">Язык запросов Yupana (YupanaQL)</a></li><li class="navListItem"><a class="navItem" href="/docs/select">SELECT</a></li><li class="navListItem"><a class="navItem" href="/docs/upsert">UPSERT</a></li><li class="navListItem"><a class="navItem" href="/docs/show">SHOW</a></li><li class="navListItem"><a class="navItem" href="/docs/kill">KILL</a></li><li class="navListItem"><a class="navItem" href="/docs/delete">DELETE</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Архитектура</h1></header><article><div><span><p>Yupana -- аналитическая платформа с открытым исходным кодом для анализа больших данных.</p>
+<p>Она обеспечивает:</p>
+<ul>
+<li>перевод транзакционной информации в форму пригодную для бизнес анализа;</li>
+<li>хранение обработанной  информации в формате оптимизированном для выполнения аналитических задач на многомерных
+временных рядах;</li>
+<li>массовую и Online обработку данных.</li>
+</ul>
+<p>Платформа поддерживает SQL-подобный синтаксис запросов, которые могут выполнятся на выделенном сервере или в кластере
+Apache Spark.</p>
+<p>Архитектура Yupana не привязана к конкретному хранилищу.  Существующая реализация использует в качестве хранилища Apache
+HBase. Данные сохраняются в виде отдельных временных рядов.</p>
+<p>Временной ряд — это собранные в разные моменты времени данные о значении наблюдаемых параметров.</p>
+<p>Структура временных рядов:</p>
+<ul>
+<li>Время измерения -- обязательная размерность временного ряда, является частью первичного составного ключа. При
+выполнении запросов всегда должны быть указаны ограничения по времени;</li>
+<li>Измерения -- поля сущности, которые являются частью первичного составного ключа и позволяют выполнять быстрый поиск.
+Например: идентификатор устройства или название товара;</li>
+<li>Метрики -- значения наблюдений. Например: сумма и количество;</li>
+<li>Внешние связи -- интерфейсы отображения и/или группировки размерностей, которые позволяют определить древовидные
+размерности временного ряда. Например: Город отображается в уникальный идентификатор устройства.</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="модули-yupana"></a><a href="#модули-yupana" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Модули Yupana</h2>
+<p><img src="/assets/images/yupana-common.svg" alt="Архитектура Yupana"></p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-api"></a><a href="#yupana-api" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-api</h3>
+<p>Этот модуль содержит определения базовых примитивов Yupana таких как типы данных и операции над ними, таблица, схема,
+свертка, внешняя связь и др.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-core"></a><a href="#yupana-core" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-core</h3>
+<p>Реализация ядра хранилища.  В этом модуле содержится реализация работы с временными рядами, вне зависимости от типа используемого
+хранилища.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-hbase"></a><a href="#yupana-hbase" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-hbase</h3>
+<p>Реализация хранилища поверх HBase.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-proto"></a><a href="#yupana-proto" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-proto</h3>
+<p>Протокол взаимодействия между JDBC драйвером и сервером.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-jdbc"></a><a href="#yupana-jdbc" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-jdbc</h3>
+<p>JDBC драйвер для Yupana.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-akka"></a><a href="#yupana-akka" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-akka</h3>
+<p>Базовые части для реализации сервера поверх Akka. Принимает запросы через TCP.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-spark"></a><a href="#yupana-spark" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-spark</h3>
+<p>Реализация TSDB работающая поверх HBase внутри Apache Spark.</p>
+<h4><a class="anchor" aria-hidden="true" id="настройки"></a><a href="#настройки" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Настройки</h4>
+<ul>
+<li>spark.hbase.regions.initial.max - настройка ограничивающая максимальное количество регионов при создании таблицы
+временного ряда в hbase, по-умолчанию 50.
+Начальное кол-во регионов считается как количество интервалов, которое помещается во временной ряд
+(текущее время + год - начало эпохи хранения данных table.epochTime делённое на rowTimeSpan и умноженное на 10).
+Если полученное значение превышает значение настройки hbase.regions.initial.max, то используется значение настройки.</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="yupana-schema"></a><a href="#yupana-schema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-schema</h3>
+<p>Минимальное определение схемы для выполнения аналитики ОФД.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-external-links"></a><a href="#yupana-external-links" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-external-links</h3>
+<p>Реализация внешних связей, таких как инвертированный индекс, поиск сопутствующих товаров и связи на базе SQL таблиц.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-caffeine"></a><a href="#yupana-caffeine" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-caffeine</h3>
+<p>Реализация кэшей на базе Caffeine.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-ehcache"></a><a href="#yupana-ehcache" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-ehcache</h3>
+<p>Реализация кэшей на базе EhCache.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-ignite"></a><a href="#yupana-ignite" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-ignite</h3>
+<p>Реализация кэшей на базе Apache Ignite.</p>
+<h3><a class="anchor" aria-hidden="true" id="yupana-examples"></a><a href="#yupana-examples" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>yupana-examples</h3>
+<p>Пример использования Yupana.  Содержит типичный набор приложений для работы с Yupana: сервер обработки запросов, ETL для
+загрузки данных и приложения для запуска тяжелых вычислений на Spark.</p>
+<h3><a class="anchor" aria-hidden="true" id="кэширование"></a><a href="#кэширование" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Кэширование</h3>
+<p>Для ускорения работы Yupana использует кэши.  Имеется несколько реализаций кэшей для Yupana:</p>
+<ul>
+<li><code>yupana-ehache</code></li>
+<li><code>yupana-caffeine</code></li>
+<li><code>yupana-ignite</code></li>
+</ul>
+<p>При использовании Yupana рекомендуется выбрать одну или несколько реализаций кэшей и сделать соответствующие настройки.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/installation"><span class="arrow-prev">← </span><span>Быстрый старт</span></a><a class="docs-next button" href="/docs/external-links"><span>Подключение внешних источников</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#модули-yupana">Модули Yupana</a><ul class="toc-headings"><li><a href="#yupana-api">yupana-api</a></li><li><a href="#yupana-core">yupana-core</a></li><li><a href="#yupana-hbase">yupana-hbase</a></li><li><a href="#yupana-proto">yupana-proto</a></li><li><a href="#yupana-jdbc">yupana-jdbc</a></li><li><a href="#yupana-akka">yupana-akka</a></li><li><a href="#yupana-spark">yupana-spark</a></li><li><a href="#yupana-schema">yupana-schema</a></li><li><a href="#yupana-external-links">yupana-external-links</a></li><li><a href="#yupana-caffeine">yupana-caffeine</a></li><li><a href="#yupana-ehcache">yupana-ehcache</a></li><li><a href="#yupana-ignite">yupana-ignite</a></li><li><a href="#yupana-examples">yupana-examples</a></li><li><a href="#кэширование">Кэширование</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © Yupana, Первый ОФД 2021</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: 'c9d8bb456d6608bb7e12f07fcdb49c2b',
+                indexName: 'yupana',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
