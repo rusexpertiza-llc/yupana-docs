@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([["6130"],{7743:function(t,u,e){e.r(u),e.d(u,{default:function(){return c}});var n=e(5893);e(7294);var r=e(6550);function c(){return(0,n.jsx)(r.l_,{to:"/docs/architecture"})}}}]);
